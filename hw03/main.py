@@ -41,5 +41,10 @@ def list_uploads():
         })
     return render_template('uploads.html', files = files_info)
 
+@app.route('/uploads/<filename>')
+def display_file(filename):
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    return send_file(filepath, as_attachment=False)
+
 if __name__ == '__main__':
     app.run(debug=True)
