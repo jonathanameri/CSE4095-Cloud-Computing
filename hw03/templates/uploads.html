@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Uploaded Files</title>
+</head>
+<body>
+    <h2>Uploaded Files</h2>
+    <ul>
+      {% for file in files %}
+        <li>{{ file['name'] }}
+          - Size: {{file['size']}} bytes
+          - Last Modified: {{file['modified_date'] }}
+        </li>
+      {% endfor %}
+    </ul>
+</body>
+</html>
