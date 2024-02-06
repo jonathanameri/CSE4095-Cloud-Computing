@@ -8,7 +8,8 @@
     <h2>Uploaded Files</h2>
     <ul>
       {% for file in files %}
-        <li>{{ file['name'] }}
+        <li>
+          <a href="{{ url_for('display_file', filename=file['name']) }}">{{ file['name'] }} </a>
           - Size: {{file['size']}} bytes
           - Last Modified: {{file['modified_date'] }}
         </li>
