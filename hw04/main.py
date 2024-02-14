@@ -44,7 +44,7 @@ def main_menu():
             local_folder_name = input('Specify the local folder name: ')
             upload(selected_bucket, local_folder_name)
         elif command == 'list_contents':
-            folder = input('Specify the folder name: ')
+            folder = input('Specify the folder name (leave blank to see all resources): ')
             list_contents(selected_bucket, folder)
         elif command == 'get_file':
             object_name = input('Specify the object name: ')
