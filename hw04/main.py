@@ -22,12 +22,12 @@ def main_menu():
         print('select an option by typing the command name')
         print('\t- \'list_buckets\': List all buckets and select one')
         print('\t- \'backup\': Backup files from local folder')
-        print('\t- \'list_objects\': List all objects in selected bucket')
-        print('\t- \'download\': Download a specific object from selected bucket')
+        print('\t- \'list_contents\': List all objects in selected bucket')
+        print('\t- \'get_file\': Download a specific object from selected bucket')
         print('\t- \'exit\': Exit the application')
 
         # Define valid commands
-        valid_commands = ['list_buckets', 'backup', 'list_objects', 'download', 'exit']
+        valid_commands = ['list_buckets', 'backup', 'list_contents', 'get_file', 'exit']
 
         # Get user input
         command = input('\nEnter a command: ')
@@ -43,8 +43,9 @@ def main_menu():
             print('You must select a bucket first')
         elif command == 'backup':
             upload(selected_bucket)
-        elif command == 'list_objects':
-            list_contents(selected_bucket)
+        elif command == 'list_contents':
+            folder = input('Specify the folder name: ')
+            list_contents(selected_bucket, folder)
         elif command == 'download':
             get_file(selected_bucket)
         else:
@@ -81,7 +82,11 @@ def list_contents(bucketName, serverFolderName):
     """
     This function lists all objects in the selected bucket.
     """
-    print('Listing all objects...')
+    bucket = s3.Bucket(bucketName)
+    print('\nListing contents of the selected bucket:')
+    for bucket_object in bucket.objects.all():
+        print(bucket_object.key)
+    print()
 
 def get_file(bucketName, serverFolderName, fileName):
     """
