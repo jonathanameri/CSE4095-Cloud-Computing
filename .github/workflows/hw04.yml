@@ -35,7 +35,7 @@ jobs:
       - name: Analysing the code with pylint
         #TODO: Be sure to update the path below to match the folder structure in your repo
         run: |
-          pylint $(git ls-files 'HW04/*.py')
+          pylint $(git ls-files 'hw04/*.py')
 
       # I am doing manual testing only for this assignment
       # No automated testing in this GitHub Actions
