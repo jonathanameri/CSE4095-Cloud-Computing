@@ -42,7 +42,7 @@ def main_menu():
         elif selected_bucket is None:
             print('\nYou must select a bucket first\n')
         elif command == 'upload':
-            local_folder_name = input('Specify the local folder name: ')
+            local_folder_name = input('Specify the local file name: ')
             upload(selected_bucket, local_folder_name)
         elif command == 'list_contents':
             folder = input('Specify the folder name (leave blank to see all resources): ')
