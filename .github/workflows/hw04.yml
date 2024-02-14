@@ -1,0 +1,41 @@
+# Trigger deployment only on push to main branch
+on:
+  push:
+    branches:
+      # TODO: Set this to "main" or "master" or whatever your main branch is called
+      - hw04-main
+
+jobs:
+  test:
+    name: Test S3 bucket commands via AWS CLI
+    # Your repo MUST be in a UConn GitHub Organization that has been configured with RH Runners. 
+    # This is a manual task that needs to be completed by the UConn School of Business IT staff.
+    # The runs-on value must be "self-hosted" to leverage the runner.
+    runs-on: self-hosted
+    strategy:
+      matrix:
+        #python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8"]
+
+    steps:
+      - name: Checkout the files
+        uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install pylint dependencies
+        ############################
+        # pylint
+        run: |
+          python -m pip install --upgrade pip
+          pip install pylint
+      - name: Analysing the code with pylint
+        #TODO: Be sure to update the path below to match the folder structure in your repo
+        run: |
+          pylint $(git ls-files 'hw04/*.py')
+
+      # I am doing manual testing only for this assignment
+      # No automated testing in this GitHub Actions
