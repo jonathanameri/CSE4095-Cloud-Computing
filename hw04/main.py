@@ -1,3 +1,10 @@
+"""
+Python application to interact with AWS S3. Includes a number of functions.
+The application interacts with the AWS account that is specified in the '~/.aws/credentials' file.
+"""
+import boto3
+
+s3 = boto3.resource('s3')
 def main_menu():
     """
     This function displays the main menu of the application in a loop.
@@ -7,48 +14,76 @@ def main_menu():
     - 'list_objects': List all objects in the selected bucket.
     - 'download': Download a specific object from the selected bucket.
     """
+    
+    selected_bucket = None
     while True:
+        # Display the main menu
+        print('***** Main Menu *****\n')
         print('select an option by typing the command name')
-        print('\'list_buckets\': List all buckets and select one')
-        print('\'backup\': Backup files from local folder')
-        print('\'list_objects\': List all objects in selected bucket')
-        print('\'download\': Download a specific object from selected bucket')
-        print('\'exit\': Exit the application')
+        print('\t- \'list_buckets\': List all buckets and select one')
+        print('\t- \'backup\': Backup files from local folder')
+        print('\t- \'list_objects\': List all objects in selected bucket')
+        print('\t- \'download\': Download a specific object from selected bucket')
+        print('\t- \'exit\': Exit the application')
 
-        command = input('Enter a command: ')
-        if command == 'list_buckets':
-            list_buckets()
-        elif command == 'backup':
-            backup()
-        elif command == 'list_objects':
-            list_objects()
-        elif command == 'download':
-            download()
+        # Define valid commands
+        valid_commands = ['list_buckets', 'backup', 'list_objects', 'download', 'exit']
+
+        # Get user input
+        command = input('\nEnter a command: ')
+
+        # Process user input
+        if command not in valid_commands:
+            print('\n!!!!!!!!!! Invalid command !!!!!!!!!!\n')
+        elif command == 'list_buckets':
+            selected_bucket = list_buckets()
         elif command == 'exit':
             break
+        elif selected_bucket is None:
+            print('You must select a bucket first')
+        elif command == 'backup':
+            upload(selected_bucket)
+        elif command == 'list_objects':
+            list_contents(selected_bucket)
+        elif command == 'download':
+            get_file(selected_bucket)
         else:
-            print('Invalid command')
+            print('\n!!!!!!!!!! Invalid command !!!!!!!!!!\n')
 
 def list_buckets():
     """
     This function lists all buckets and allows the user to select one.
     """
-    print('Listing all buckets...')
+    list_of_buckets = []
+    bucket_name = None
 
-def backup():
+    print('\nList of buckets:')
+    for bucket in s3.buckets.all():
+        list_of_buckets.append(bucket.name)
+        print(bucket.name)
+    while True and list_of_buckets:
+        bucket_name = input('\nEnter the name of the bucket you want to select: ')
+        if bucket_name in list_of_buckets:
+            break
+        else:
+            print('Invalid bucket name')
+    print()
+    return bucket_name
+
+def upload(localFolderName, bucketName):
     """
-    This function backs up files from a local folder to a selected bucket.
+    This function uploads files from a local folder to the selected bucket.
     """
     print('Backing up files...')
 
 
-def list_objects():
+def list_contents(bucketName, serverFolderName):
     """
     This function lists all objects in the selected bucket.
     """
     print('Listing all objects...')
 
-def download():
+def get_file(bucketName, serverFolderName, fileName):
     """
     This function downloads a specific object from the selected bucket.
     """
