@@ -4,6 +4,7 @@ The application interacts with the AWS account that is specified in the '~/.aws/
 """
 import os
 import boto3
+from botocore.exceptions import ClientError
 
 def main_menu():
     """
@@ -66,12 +67,11 @@ def list_buckets():
     for bucket in s3.buckets.all():
         list_of_buckets.append(bucket.name)
         print(bucket.name)
-    while True and list_of_buckets:
+    while list_of_buckets:
         bucket_name = input('\nEnter the name of the bucket you want to select: ')
         if bucket_name in list_of_buckets:
             break
-        else:
-            print('Invalid bucket name')
+        print('Invalid bucket name')
     print()
     return bucket_name
 
@@ -128,7 +128,7 @@ def get_file(bucket_name, object_name, file_name):
     print('\nDownloading file...\n')
     try:
         s3.download_file(bucket_name, object_name, file_name)
-    except Exception as e:
+    except ClientError as e:
         print(e)
 
 if __name__ == '__main__':
