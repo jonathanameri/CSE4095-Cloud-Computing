@@ -72,10 +72,10 @@ def list_buckets():
         if bucket_name in list_of_buckets:
             break
         print('Invalid bucket name')
-    print()
+    print(f'\nBucket \'{bucket_name}\' selected\n')
     return bucket_name
 
-def upload(bucket_name, local_folder_name):
+def upload(bucket_name, file_name):
     """
     This function uploads files from a local folder to the selected bucket.
     Iterates over all files in the local folder and uploads them to the selected bucket.
@@ -87,9 +87,9 @@ def upload(bucket_name, local_folder_name):
 
     print('\nUploading files to S3...\n')
 
-    if os.path.isdir(local_folder_name):
-        for filename in os.listdir(local_folder_name):
-            file_path = os.path.join(local_folder_name, filename)
+    if os.path.isdir(file_name):
+        for filename in os.listdir(file_name):
+            file_path = os.path.join(file_name, filename)
             if os.path.isfile(file_path):
                 bucket_file = filename  # Upload to S3 with the same filename
                 print(f'Uploading {filename} to {bucket_name}/{bucket_file}')
@@ -97,8 +97,12 @@ def upload(bucket_name, local_folder_name):
             else:
                 print(f'Skipping directory: {filename}')
         print('\nFiles uploaded successfully')
+    elif os.path.isfile(file_name):
+        print(f'Uploading {file_name} to {bucket_name}/{file_name}')
+        bucket.upload_file(file_name, file_name)
+        print('\nFile uploaded successfully')
     else:
-        print(f"\nError: The directory {local_folder_name} does not exist.")
+        print(f"\nError: The file {file_name} does not exist.")
     print()
 
 def list_contents(bucket_name, server_folder_name):
