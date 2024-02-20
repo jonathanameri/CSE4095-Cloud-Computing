@@ -26,7 +26,7 @@ jobs:
           aws-region: us-east-1
 
       # The second parameter should be the file path of your local lambda code you want to deploy
-      - run: zip -j lambda1.zip ./hw05/lambda1/lambda_python.py
+      - run: zip -j lambda1.zip ./hw05/lambda1/lambda_function.py
 
       # Change the function-name value to match your function name in AWS
       - run: aws lambda update-function-code --function-name=hw05-function-basic --zip-file=fileb://lambda1.zip
