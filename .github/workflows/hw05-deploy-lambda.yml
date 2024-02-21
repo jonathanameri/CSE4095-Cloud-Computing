@@ -56,3 +56,5 @@ jobs:
       - name: Run all your pytest tests in your code
         run: |
           pytest hw05/hw05_test_lambda.py
+        env:
+          AWS_DEFAULT_REGION: us-east-1
