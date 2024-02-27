@@ -47,6 +47,7 @@ jobs:
       
   test:
     name: test
+    needs: deploy
     runs-on: self-hosted
   
     strategy:
