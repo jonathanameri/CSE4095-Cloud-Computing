@@ -8,7 +8,11 @@ def lambda_handler(event, context):
     s3 = boto3.client('s3')
     response = s3.list_buckets()
 
+    bucket_list = []
+    for bucket in response['Buckets']:
+        bucket_list.append(bucket['Name'])
+
     return {
         'statusCode': 200,
-        'body': json.dumps(response)
+        'body': json.dumps(bucket_list)
     }
