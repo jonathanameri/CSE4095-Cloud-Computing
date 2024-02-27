@@ -25,12 +25,25 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
 
-      # The second parameter should be the file path of your local lambda code you want to deploy
-      - run: zip -j lambda1.zip ./hw06/lambda/list_buckets.py
-
-      # Change the function-name value to match your function name in AWS
-      - run: aws lambda update-function-code --function-name=hw06-list-buckets --zip-file=fileb://lambda1.zip
-#       - run: aws lambda update-function-code --function-name=hw06-list-buckets --zip-file=fileb://lambda.zip
+      # Zip and deploy 1st lambda function
+      - run: | 
+          zip -j lambda1.zip ./hw06/lambda/list_buckets.py
+          aws lambda update-function-code --function-name=hw06-list-buckets --zip-file=fileb://lambda1.zip
+          
+      # Zip and deploy 2nd lambda function
+      - run: | 
+          zip -j lambda2.zip ./hw06/lambda/get_bucket_objects.py
+          aws lambda update-function-code --function-name=hw06-get-bucket-objects --zip-file=fileb://lambda2.zip
+          
+      # Zip and deploy 3rd lambda function
+      - run: | 
+          zip -j lambda3.zip ./hw06/lambda/add_object.py
+          aws lambda update-function-code --function-name=hw06-add-object --zip-file=fileb://lambda3.zip
+        
+      # Zip and deploy 4th lambda function
+      - run: | 
+          zip -j lambda4.zip ./hw06/lambda/delete_object.py
+          aws lambda update-function-code --function-name=hw06-delete-object --zip-file=fileb://lambda4.zip
       
 #   test:
 #     name: test functionality of lambda
