@@ -26,10 +26,10 @@ jobs:
           aws-region: us-east-1
 
       # The second parameter should be the file path of your local lambda code you want to deploy
-      - run: zip -j lambda.zip ./hw06/lambda
+      - run: zip -j lambda1.zip ./hw06/lambda/list_buckets.py
 
       # Change the function-name value to match your function name in AWS
-      - run: aws lambda update-function-code --function-name=hw06-list-buckets --zip-file=fileb://lambda.zip
+      - run: aws lambda update-function-code --function-name=hw06-list-buckets --zip-file=fileb://lambda1.zip
 #       - run: aws lambda update-function-code --function-name=hw06-list-buckets --zip-file=fileb://lambda.zip
       
 #   test:
